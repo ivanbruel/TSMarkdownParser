@@ -48,11 +48,10 @@ typedef NSFont UIFont;
 #endif
     
     _listAttributes = @[];
-    _quoteAttributes = @[@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Italic" size:defaultSize]}];
+  _quoteAttributes = @[@{NSFontAttributeName: [UIFont italicSystemFontOfSize: defaultSize]}];
     
     _imageAttributes = @{};
-    _linkAttributes = @{ NSForegroundColorAttributeName: [UIColor blueColor],
-                         NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle) };
+    _linkAttributes = @{ NSForegroundColorAttributeName: [UIColor blueColor] };
     
     // Courier New and Courier are the only monospace fonts compatible with watchOS 2
     _monospaceAttributes = @{ NSFontAttributeName: [UIFont fontWithName:@"Courier New" size:defaultSize],
@@ -91,7 +90,7 @@ typedef NSFont UIFont;
         NSMutableString *listString = [NSMutableString string];
         while (--level)
             [listString appendString:@"\t"];
-        [listString appendString:@"•\t"];
+        [listString appendString:@"•"];
         [attributedString replaceCharactersInRange:range withString:listString];
     } textFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSUInteger level) {
         [TSMarkdownParser addAttributes:weakParser.listAttributes atIndex:level - 1 toString:attributedString range:range];
@@ -189,11 +188,11 @@ static NSString *const TSMarkdownEscapingRegex      = @"\\\\.";
 static NSString *const TSMarkdownUnescapingRegex    = @"\\\\[0-9a-z]{4}";
 
 // lead regex
-static NSString *const TSMarkdownHeaderRegex        = @"^(#{1,%@})\\s+(.+)$";
+static NSString *const TSMarkdownHeaderRegex        = @"^(#{1,%@})\\s*(.+)$";
 static NSString *const TSMarkdownShortHeaderRegex   = @"^(#{1,%@})\\s*([^#].*)$";
 static NSString *const TSMarkdownListRegex          = @"^([\\*\\+\\-]{1,%@})\\s+(.+)$";
 static NSString *const TSMarkdownShortListRegex     = @"^([\\*\\+\\-]{1,%@})\\s*([^\\*\\+\\-].*)$";
-static NSString *const TSMarkdownQuoteRegex         = @"^(\\>{1,%@})\\s+(.+)$";
+static NSString *const TSMarkdownQuoteRegex         = @"^(\\>{1,%@})\\s*(.+)$";
 static NSString *const TSMarkdownShortQuoteRegex    = @"^(\\>{1,%@})\\s*([^\\>].*)$";
 
 // inline bracket regex
